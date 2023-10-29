@@ -31,8 +31,8 @@ import { AppPage } from "./Tipusok";
 
 const appPages: AppPage[] = [
   {
-    title: "Inbox",
-    url: "/page/Inbox",
+    title: "Kapcsolatok",
+    url: "/page/doktorlistapage",
     iosIcon: mailOutline,
     mdIcon: mailSharp,
   },
@@ -61,8 +61,8 @@ const appPages: AppPage[] = [
     mdIcon: trashSharp,
   },
   {
-    title: "Spam",
-    url: "/page/Spam",
+    title: "Névjegy",
+    url: "adatlappage",
     iosIcon: warningOutline,
     mdIcon: warningSharp,
   },
@@ -75,7 +75,7 @@ const Menu: React.FC = () => {
 
   return (
     <IonMenu contentId="main" type="overlay">
-      <IonContent>
+      <IonContent className="bg-gray-900 text-white">
         <IonList id="inbox-list">
           <IonListHeader>Inbox</IonListHeader>
           <IonNote>hi@ionicframework.com</IonNote>

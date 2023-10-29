@@ -1,0 +1,59 @@
+ion-content::part(background) {
+  background: radial-gradient(
+    ellipse at 20%,
+    #facc15,
+    #65a30d 10%,
+    #1a432a 50%
+  );
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ffc409;
+}
+
+hr#feher {
+  border-top: 1px solid #ffffff;
+  width: 50%;
+  margin: 0em auto;
+}
+
+hr#center {
+  width: 30%;
+  margin: 0em auto;
+}
+
+hr#dot {
+  background: transparent;
+  border-bottom: 1px dashed #65a30d;
+  width: 30%;
+  margin: 0 auto;
+
+  &:before {
+    top: 3px;
+    left: 0;
+    padding-right: 2em;
+  }
+}
+
+ion-content::part(scroll) {
+  color: #fff;
+}
+
+ion-toolbar {
+  --opacity: 0;
+  color: #fff;
+}
+ion-title.title-large {
+  color: #c897d8;
+  font-size: 30px;
+}
+
+.ion-title {
+  --color: #000;
+}
+
+.ion-toolbar {
+  --background: #c897d8;
+  height: 50px;
+}
