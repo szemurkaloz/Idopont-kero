@@ -29,32 +29,50 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import DoktorListaPage from "./pages/DoktorListaPage";
 import AdatlapPage from "./pages/AdatlapPage";
+import QrCodeElfogad from "./pages/QrCodeElfogadPage";
+import { GlobalProvider } from "./store/ListaContext";
+import QrCodeBeolvasas from "./pages/QrCodeBeolvasas";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/page/doktorlistapage" />
-            </Route>
-            <Route path="/page/:name" exact={true}>
-              <Page />
-            </Route>
-            <Route path="/page/doktorlistapage" exact={true}>
-              <DoktorListaPage />
-            </Route>
-            <Route path="/page/adatlappage" exact={true}>
-              <AdatlapPage />
-            </Route>
-          </IonRouterOutlet>
-        </IonSplitPane>
-      </IonReactRouter>
-    </IonApp>
+    <GlobalProvider>
+      <IonApp>
+        <IonReactRouter>
+          <IonSplitPane contentId="main">
+            <Menu />
+            <IonRouterOutlet id="main">
+              <Route path="/" exact={true}>
+                <Redirect to="/page/Kapcsolatok" />
+              </Route>
+              <Route path="/page/:name" exact={true}>
+                <Page />
+              </Route>
+              <Route path="/page/Kapcsolatok" exact={true}>
+                <DoktorListaPage />
+              </Route>
+              <Route path="/page/adatlappage" exact={true}>
+                <AdatlapPage />
+              </Route>
+              <Route
+                exact={true}
+                path="/page/QrCodeElfogadPage/:id"
+                component={QrCodeElfogad}
+              />
+              <Route
+                exact={true}
+                path="/page/QrCodeElfogadPage"
+                component={QrCodeElfogad}
+              />
+              <Route path="/page/QrCodeBeolvasas" exact={true}>
+                <QrCodeBeolvasas />
+              </Route>
+            </IonRouterOutlet>
+          </IonSplitPane>
+        </IonReactRouter>
+      </IonApp>
+    </GlobalProvider>
   );
 };
 

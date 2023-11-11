@@ -1,11 +1,16 @@
 import { IonCol, IonGrid, IonLabel, IonRow } from "@ionic/react";
 import Kozlemeny from "./Kozlemeny";
-import { propsKozlemeny } from "../Tipusok";
+import { propsKozlemeny } from "../../models/Tipusok";
 import FoglalasiIdopont from "./FoglalasiIdopont";
-type Props = {};
+import { PaciensKartyaAdat } from "../../models/paciensAdat";
+
+export interface Props {
+  item: PaciensKartyaAdat;
+}
 
 const KartyaAdatItem = (props: Props) => {
-  const item = {
+  const item = props.item;
+  /* const item = {
     fogIdopont: {
       key: "2021-11-02T08:20:00.000+01:00",
       label: "",
@@ -20,54 +25,56 @@ const KartyaAdatItem = (props: Props) => {
     cimke: "aszisztens",
     szerep: "orvos",
     szulDatum: "2018-01-31",
-  };
+  }; */
   return (
     <section>
-      <IonGrid>
-        <IonRow>
-          <IonCol>
-            <div className="ion-text-center">
-              <h2>{item.paciensNev}</h2>
-            </div>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <div className="ion-text-center">
-              <h2>{item.szulDatum}</h2>
-              <hr id="center"></hr>
-            </div>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <div className="ion-text-center">
-              <h2>{item.orvos}</h2>
-            </div>
-          </IonCol>
-        </IonRow>
-        {item.kozlemeny && <Kozlemeny Kozlemeny={item.kozlemeny} />}
-        {item.cimke !== "" && (
+      <div className="border-y-cyan-50 border-5 rounded-xl shadow-lg shadow-orange-200 hover:shadow-orange-400">
+        <IonGrid>
           <IonRow>
-            <IonCol></IonCol>
-            <IonCol size="9">
-              <div className="ion-text-left padding-left-10">
-                <IonLabel aria-hidden="true">{item.cimke}</IonLabel>
+            <IonCol>
+              <div className="ion-text-center">
+                <h2>{item.paciensNev}</h2>
               </div>
             </IonCol>
           </IonRow>
-        )}
-        {item.fogIdopont !== null && (
-          <div>
-            <hr id="feher"></hr>
-            <FoglalasiIdopont
-              key={item.fogIdopont.key}
-              label={item.fogIdopont.label}
-              uzenet={item.fogIdopont.uzenet}
-            />
-          </div>
-        )}
-      </IonGrid>
+          <IonRow>
+            <IonCol>
+              <div className="ion-text-center">
+                <h2>{item.szulDatum}</h2>
+                <hr id="center"></hr>
+              </div>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <div className="ion-text-center">
+                <h2>{item.orvos}</h2>
+              </div>
+            </IonCol>
+          </IonRow>
+          {item.kozlemeny && <Kozlemeny Kozlemeny={item.kozlemeny} />}
+          {item.szerep !== "" && (
+            <IonRow>
+              <IonCol></IonCol>
+              <IonCol size="9">
+                <div className="ion-text-left padding-left-10">
+                  <IonLabel aria-hidden="true">{item.szerep}</IonLabel>
+                </div>
+              </IonCol>
+            </IonRow>
+          )}
+          {item.fogIdopont !== null && (
+            <div>
+              <hr id="feher"></hr>
+              <FoglalasiIdopont
+                key={item.fogIdopont.key}
+                label={item.fogIdopont.label}
+                uzenet={item.fogIdopont.uzenet}
+              />
+            </div>
+          )}
+        </IonGrid>
+      </div>
     </section>
   );
 };

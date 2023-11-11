@@ -1,3 +1,5 @@
+import { QrcodeAdat } from "./paciensAdat";
+
 export interface AppPage {
   url: string;
   iosIcon: string;
@@ -14,3 +16,11 @@ export interface FogIdopont {
 export interface propsKozlemeny {
   Kozlemeny: string;
 }
+
+export type IsOpenHandle = {
+  start: () => void;
+};
+
+export type IsOpenFelugroHandle = {
+  start: (kartya: QrcodeAdat) => void;
+};

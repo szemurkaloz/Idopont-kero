@@ -1,17 +1,22 @@
 import React from "react";
 import { IonCol, IonGrid, IonRow, IonIcon, IonLabel } from "@ionic/react";
 import { informationCircleOutline } from "ionicons/icons";
-import { propsKozlemeny } from "../Tipusok";
+import { propsKozlemeny } from "../../models/Tipusok";
 
 const Kozlemeny = (props: propsKozlemeny) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <section>
-      <div onClick={() => setIsOpen(!isOpen)} className="ion-card-item">
+      <div className="ion-card-item">
         <IonRow>
           <IonCol>
             <div className="ion-text-center">
               <IonIcon
+                onClick={(e) => {
+                  //e.preventDefault();
+                  e.stopPropagation();
+                  setIsOpen(!isOpen);
+                }}
                 icon={informationCircleOutline}
                 color="danger"
                 size="large"

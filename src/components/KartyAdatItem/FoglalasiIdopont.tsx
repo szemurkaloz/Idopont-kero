@@ -1,5 +1,5 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
-import { FogIdopont } from "../Tipusok";
+import { FogIdopont } from "../../models/Tipusok";
 
 const FoglalasiIdopont = (props: FogIdopont) => {
   //new Date().toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"})

@@ -1,0 +1,22 @@
+.custom-alert .alert-wrapper {
+  .alert-head {
+    background: var(--ion-color-primary);
+    margin-bottom: 15px;
+  }
+}
+.alert-button-inner.sc-ion-alert-md {
+  /*
+   transition-duration: 1000ms;
+  transition-property: background-color; */
+  padding-right: 8px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.alert-button-inner.sc-ion-alert-md:hover {
+  background-color: var(--ion-color-primary);
+  color: white;
+  /* 
+  transform: rotate(90deg);*/
+}

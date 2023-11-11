@@ -4,27 +4,43 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { useParams } from "react-router";
-import ExploreContainer from "../components/ExploreContainer";
+import { Route, useParams } from "react-router";
 import "./Page.css";
-import FoglalasiIdopont from "../components/KartyAdatItem/FoglalasiIdopont";
 import KartyaAdatItem from "../components/KartyAdatItem/KartyaAdatItem";
 import { cameraOutline } from "ionicons/icons";
+import React, { useState } from "react";
+import { Figyelmeztetes2 } from "../components/CameraModul/Figyelmeztetes";
+import {
+  GlobalContext,
+  PaciensKartyaAdatContextType,
+} from "../store/ListaContext";
+import { PaciensKartyaAdat, QrcodeAdat } from "../models/paciensAdat";
+import FelugroMenu from "../components/FelugroMenu";
+import QrCodeElfogadPage from "./QrCodeElfogadPage";
 
 type Props = {};
 
 const DoktorListaPage: React.FC = () => {
+  const { listData } = React.useContext(
+    GlobalContext
+  ) as PaciensKartyaAdatContextType;
   const { name } = useParams<{ name: string }>();
-  console.log("Kapott paraméter" + name);
-  const fogIdopont = {
-    key: "2021-11-02T00:00:00.000+01:00",
-    label: "2021-11-02T00:00:00.000+01:00",
-    uzenet: "Időpontja",
+  type FigyelmeztetesHandle = React.ElementRef<typeof Figyelmeztetes2>;
+  const refMegjelenit = React.useRef<FigyelmeztetesHandle>(null);
+  type FelugroMenuHandle = React.ElementRef<typeof FelugroMenu>;
+  const refFelugroMenu = React.useRef<FelugroMenuHandle>(null);
+  //e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  /* const KartyaClickHandle = async (id: string) => {
+    //console.log(id);
+    refFelugroMenu.current?.start(id);
+  }; */
+  const KartyaClickHandle = async (adat: QrcodeAdat) => {
+    //console.log(JSON.stringify(adat));
+    refFelugroMenu.current?.start(adat);
   };
 
   return (
@@ -32,29 +48,44 @@ const DoktorListaPage: React.FC = () => {
       <IonHeader>
         <IonToolbar className="ion-toolbar">
           <IonButtons slot="secondary">
-            <IonButton>
+            <IonButton
+              color="light-contrast"
+              routerLink="/page/QrCodeBeolvasas"
+            >
               <IonIcon slot="icon-only" icon={cameraOutline}></IonIcon>
             </IonButton>
           </IonButtons>
-          <IonTitle className="ion-title">{name} Joci</IonTitle>
-          <IonButtons slot="primary">
-            <IonButton>Delete</IonButton>
-          </IonButtons>
+          <IonTitle className="ion-title ml-8">{name} Joci</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen className="ion-padding">
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonButtons slot="secondary">
-              <IonButton size="large">Favorite</IonButton>
-            </IonButtons>
-            <IonTitle>Default Buttons</IonTitle>
-            <IonButtons slot="primary">
-              <IonButton>Delete</IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <KartyaAdatItem />
+        {/*  <IonButton
+          onClick={() => {
+            refMegjelenit.current?.start();
+          }}
+        >
+          Default
+        </IonButton>
+        <Figyelmeztetes2
+          header="Hiba!"
+          message={`Nem jó formátum!
+Ellenőrizd, hogy a jó QR kódot olvasod-e be.`}
+          ref={refMegjelenit}
+        /> */}
+        <ul id="open-action-sheet">
+          {listData.map((item) => (
+            <li
+              key={item.id}
+              className="flex-1 flex-col justify-normal mb-10"
+              onClick={() => {
+                KartyaClickHandle(item);
+              }}
+            >
+              <KartyaAdatItem item={item} />
+            </li>
+          ))}
+        </ul>
+        <FelugroMenu ref={refFelugroMenu} />
       </IonContent>
     </IonPage>
   );

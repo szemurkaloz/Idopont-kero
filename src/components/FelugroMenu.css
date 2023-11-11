@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+ion-action-sheet.my-custom-class .action-sheet-group {
+  background: #166534;
+  color: whitesmoke !important;
+  border-radius: 8px;
+}
+
+ion-action-sheet.my-custom-class .action-sheet-title {
+  color: whitesmoke;
+  text-align: center;
+}
+
+.action-sheet-button.sc-ion-action-sheet-md {
+  background-color: forestgreen;
+  border-radius: 8px;
+  margin: 14px;
+  width: 94%;
+}
+.action-sheet-button.sc-ion-action-sheet-md:last-child {
+  background: #ff0000;
+  margin-bottom: 30px;
+}
+
+@media (any-hover: hover) {
+  ion-action-sheet.my-custom-class .action-sheet-button:hover {
+    background-color: green;
+  }
+}
+
+.action-sheet-icon {
+  color: whitesmoke !important;
+}

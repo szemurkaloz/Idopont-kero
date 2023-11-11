@@ -15,32 +15,31 @@ import {
   archiveOutline,
   archiveSharp,
   bookmarkOutline,
+  camera,
   heartOutline,
   heartSharp,
   mailOutline,
   mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
   trashOutline,
   trashSharp,
   warningOutline,
   warningSharp,
 } from "ionicons/icons";
 import "./Menu.css";
-import { AppPage } from "./Tipusok";
+import { AppPage } from "../models/Tipusok";
 
 const appPages: AppPage[] = [
   {
     title: "Kapcsolatok",
-    url: "/page/doktorlistapage",
+    url: "/page/Kapcsolatok",
     iosIcon: mailOutline,
     mdIcon: mailSharp,
   },
   {
-    title: "Outbox",
-    url: "/page/Outbox",
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
+    title: "Elfogadás",
+    url: "/page/QrCodeBeolvasas",
+    iosIcon: camera,
+    mdIcon: camera,
   },
   {
     title: "Favorites",

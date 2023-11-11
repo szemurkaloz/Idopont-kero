@@ -36,12 +36,12 @@ hr#dot {
   }
 }
 
-ion-content::part(scroll) {
+/* ion-content::part(scroll) {
   color: #fff;
 }
 
 ion-toolbar {
-  --opacity: 0;
+  --opacity: 1;
   color: #fff;
 }
 ion-title.title-large {
@@ -49,11 +49,20 @@ ion-title.title-large {
   font-size: 30px;
 }
 
-.ion-title {
-  --color: #000;
-}
+
 
 .ion-toolbar {
   --background: #c897d8;
   height: 50px;
+}
+ */
+ion-toolbar {
+  --opacity: 0.5;
+  color: var(warning-contrast);
+  background: var(--ion-color-secondary);
+}
+
+.ion-title {
+  --color: #000;
+  text-align: center;
 }
