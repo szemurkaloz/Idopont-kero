@@ -24,3 +24,8 @@ export type IsOpenHandle = {
 export type IsOpenFelugroHandle = {
   start: (kartya: QrcodeAdat) => void;
 };
+
+export const RoszKodUzenet = `Nem jó formátum!
+Ellenőrizd, hogy a jó QR kódot olvasod-e be.`;
+export const IsmetlesiUzenet = `Ez a QR kód tartalom,
+már szerepel a tárolt adatok között.`;

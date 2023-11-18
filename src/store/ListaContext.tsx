@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { PaciensKartyaAdat } from "../models/paciensAdat";
+import {
+  PaciensKartyaAdat,
+  QrcodeAdat,
+  getPaciensKartyaAdatFrom,
+} from "../models/paciensAdat";
+import { useStorage } from "./AlapEljarasok";
 
 const fakeDoctorlist = [
   {
@@ -32,8 +37,8 @@ const fakeDoctorlist = [
   },
   {
     fogIdopont: null,
-    id: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
-    key: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
+    id: "9912-15ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
+    key: "9912-15ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
     kozlemeny: "x",
     orvos: "Dr Valaki Nagy",
     paciensNev: "Remete Pál",
@@ -44,7 +49,8 @@ const fakeDoctorlist = [
 
 export type PaciensKartyaAdatContextType = {
   listData: PaciensKartyaAdat[];
-  //getAdatLista: () => PaciensKartyaAdat | null;
+  editQrCard: (editCard: QrcodeAdat) => void;
+  getAdatLista: () => void;
 };
 
 export const GlobalContext =
@@ -52,19 +58,44 @@ export const GlobalContext =
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [listData, setListData] = useState<PaciensKartyaAdat[]>(fakeDoctorlist);
+  const { taroldQrAdat, olvasdQrAdat } = useStorage();
 
   const getAdatLista = async () => {
-    /* fetchTaroltListaData().then((value) => {
-        //console.log("useEfect",value)
-        setListData(value);
-      }); */
-    setListData(fakeDoctorlist);
+    //Tárolóban frissíteni az adatot
+    //taroldQrAdat(editCard);
+  };
+
+  const editQrCard = async (editCard: QrcodeAdat) => {
+    //console.log("EDITCARD", editCard);
+    //Tárolóban frissíteni az adatot
+    taroldQrAdat(editCard);
+    let result = await listData.find((a: QrcodeAdat) => a.id === editCard.id);
+    if (result === undefined) {
+      //Még nincs a listában
+      setListData((old) => [...old, getPaciensKartyaAdatFrom(editCard)]);
+    } else {
+      result.cimke = editCard.cimke;
+      /*
+      setListData((prevLista) =>
+        prevLista.map((card) => {
+          //console.log("szerver fogidőpontok: ", allapot);
+          return card.id === editCard.id
+            ? {
+                ...card,
+                cimke: editCard.cimke,
+              }
+            : card;
+        })
+      );*/
+    }
   };
 
   return (
     <GlobalContext.Provider
       value={{
         listData,
+        editQrCard,
+        getAdatLista,
       }}
     >
       {children}

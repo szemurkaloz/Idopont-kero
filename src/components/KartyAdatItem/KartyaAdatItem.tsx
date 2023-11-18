@@ -37,6 +37,7 @@ const KartyaAdatItem = (props: Props) => {
               </div>
             </IonCol>
           </IonRow>
+
           <IonRow>
             <IonCol>
               <div className="ion-text-center">
@@ -45,6 +46,7 @@ const KartyaAdatItem = (props: Props) => {
               </div>
             </IonCol>
           </IonRow>
+
           <IonRow>
             <IonCol>
               <div className="ion-text-center">
@@ -52,7 +54,9 @@ const KartyaAdatItem = (props: Props) => {
               </div>
             </IonCol>
           </IonRow>
+
           {item.kozlemeny && <Kozlemeny Kozlemeny={item.kozlemeny} />}
+
           {item.szerep !== "" && (
             <IonRow>
               <IonCol></IonCol>
@@ -63,6 +67,15 @@ const KartyaAdatItem = (props: Props) => {
               </IonCol>
             </IonRow>
           )}
+
+          <IonRow>
+            <IonCol>
+              <div className="ion-text-center">
+                <h2>{item.cimke ? item.cimke : ""}</h2>
+              </div>
+            </IonCol>
+          </IonRow>
+
           {item.fogIdopont !== null && (
             <div>
               <hr id="feher"></hr>

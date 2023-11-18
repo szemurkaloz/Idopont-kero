@@ -16,34 +16,73 @@ import {
   IonList,
   IonInput,
   IonItem,
+  useIonRouter,
 } from "@ionic/react";
-import { Barcode, BarcodeScanner } from "@capacitor-mlkit/barcode-scanning";
 import {} from "@capacitor/core";
 import "./Page.css";
 import { useState, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
-
-type Props = {
-  adat: {
-    paciensNev: "3 Év Alatti Gyermek";
-    szulDatum: "2018-01-31";
-    orvos: "Kovács József";
-    cimke: "Gyerekorvos34";
-    key: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-76D06771-872F-48AF-BAFC-25819937B0A5";
-    id: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-76D06771-872F-48AF-BAFC-25819937B0A5";
-    szerep: "asszisztens";
-  };
-};
+import { useForm } from "react-hook-form";
+import { QrcodeAdat } from "../models/paciensAdat";
+import React from "react";
+import {
+  GlobalContext,
+  PaciensKartyaAdatContextType,
+} from "../store/ListaContext";
 
 interface QrCodeElfogadPageProps
   extends RouteComponentProps<{
     id: string;
   }> {}
 
+let initialValues = {
+  id: "",
+  key: null,
+  orvos: "",
+  paciensNev: "",
+  szerep: undefined,
+  szulDatum: "",
+  cimke: "",
+};
+
 const QrCodeElfogadPage: React.FC<QrCodeElfogadPageProps> = (props) => {
-  //console.log(JSON.stringify(props, null, 2));
-  const adat = JSON.parse(props.match.params.id);
-  console.log(JSON.stringify(adat, null, 2));
+  const {
+    control,
+    getValues,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<QrcodeAdat>({
+    defaultValues: initialValues,
+    mode: "onSubmit",
+  });
+
+  const { editQrCard } = React.useContext(
+    GlobalContext
+  ) as PaciensKartyaAdatContextType;
+
+  const router = useIonRouter();
+
+  useEffect(() => {
+    //setData(JSON.parse(props.match.params.id));
+    //alert(JSON.stringify(props.match.params.id, null, 2));
+    const ss = JSON.parse(props.match.params.id);
+    setValue("id", ss.id);
+    setValue("paciensNev", ss.paciensNev);
+    setValue("orvos", ss.orvos);
+    setValue("szerep", ss.szerep);
+    setValue("szulDatum", ss.szulDatum);
+    setValue("cimke", ss.cimke);
+    //alert(JSON.stringify(ss, null, 2));
+  }, [props.match.params.id]);
+
+  const onSubmit = (data: QrcodeAdat) => {
+    //alert(JSON.stringify(data, null, 2));
+    editQrCard(data);
+    router.goBack();
+  };
+
   return (
     <IonPage>
       <IonHeader translucent={false}>
@@ -56,43 +95,51 @@ const QrCodeElfogadPage: React.FC<QrCodeElfogadPageProps> = (props) => {
       </IonHeader>
 
       <IonContent fullscreen>
-        <IonList>
-          <IonItem>
-            <IonInput
-              label="Név"
-              placeholder="Enter text"
-              value={adat.id}
-            ></IonInput>
-          </IonItem>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <IonList>
+            <IonItem>
+              <IonInput label="Név" {...register("paciensNev")}></IonInput>
+            </IonItem>
 
-          <IonItem>
-            <IonInput label="Floating label" placeholder="000"></IonInput>
-          </IonItem>
+            <IonItem>
+              <IonInput
+                label="Születés dátuma"
+                readonly={true}
+                {...register("szulDatum")}
+              ></IonInput>
+            </IonItem>
 
-          <IonItem>
-            <IonInput
-              label="Password input"
-              type="password"
-              value="password"
-            ></IonInput>
-          </IonItem>
+            <IonItem>
+              <IonInput
+                label={
+                  getValues("szerep")
+                    ? getValues("szerep")
+                        ?.charAt(0)
+                        .toUpperCase()
+                        .slice(1)
+                        .toLowerCase()
+                    : ""
+                }
+                readonly={true}
+                {...register("orvos")}
+              ></IonInput>
+            </IonItem>
 
-          <IonItem>
-            <IonInput
-              label="Email input"
-              type="email"
-              placeholder="email@domain.com"
-            ></IonInput>
-          </IonItem>
-
-          <IonItem>
-            <IonInput
-              label="Telephone input"
-              type="tel"
-              placeholder="888-888-8888"
-            ></IonInput>
-          </IonItem>
-        </IonList>
+            <IonItem>
+              <IonInput
+                label="Emlékeztető"
+                placeholder="Megjegyzés pl ...háziorvos"
+                {...register("cimke")}
+                onIonChange={(e) =>
+                  setValue("cimke", e.detail.value ? e.detail.value : "")
+                }
+              ></IonInput>
+            </IonItem>
+            <div>
+              <IonButton type="submit">Elfogad</IonButton>
+            </div>
+          </IonList>
+        </form>
       </IonContent>
     </IonPage>
   );

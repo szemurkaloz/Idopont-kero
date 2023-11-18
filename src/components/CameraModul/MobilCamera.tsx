@@ -10,26 +10,23 @@ import {
   IonIcon,
   IonText,
   useIonAlert,
+  useIonRouter,
 } from "@ionic/react";
 import { scan } from "ionicons/icons";
 import React, { useEffect, useRef, useState } from "react";
-import { Example, Figyelmeztetes, Figyelmeztetes2 } from "./Figyelmeztetes";
+import { Figyelmeztetes } from "./Figyelmeztetes";
+import { VonalkodHiteles, getDataFromScan } from "../../models/paciensAdat";
+import { RoszKodUzenet } from "../../models/Tipusok";
 
+//type Props = { parentFunction: Function };
 type Props = {};
 
-const RoszKodUzenet = `Nem jó formátum!
-Ellenőrizd, hogy a jó QR kódot olvasod-e be.`;
-const IsmetlesiUzenet = `Ez a QR kód tartalom,
-már szerepel a tárolt adatok között.`;
-
 const MobilCamera = (props: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
-  const [getBarcodes, setBarcodes] = useState<Barcode[]>([]);
-  var [valaki, setValaki] = useState<string>("");
-  const childRef = useRef();
-  type FigyelmeztetesHandle = React.ElementRef<typeof Figyelmeztetes2>;
+  type FigyelmeztetesHandle = React.ElementRef<typeof Figyelmeztetes>;
   const refMegjelenit = React.useRef<FigyelmeztetesHandle>(null);
+  const router = useIonRouter();
+  const [presentAlert] = useIonAlert();
 
   useEffect(() => {
     BarcodeScanner.isSupported().then((result) => {
@@ -44,6 +41,17 @@ const MobilCamera = (props: Props) => {
   };
 
   const openScanner = async () => {
+    /* webben nincs csomag alapból
+    const vanMasolo = await BarcodeScanner.isSupported();
+    if (!vanMasolo.supported) {
+      console.log("Telepítés");
+      presentAlert({
+        header: "A Short Title Is Best",
+        subHeader: "A Sub Header Is Optional",
+        message: "A message should be a short, complete sentence.",
+        buttons: ["Action"],
+      });
+    }*/
     const granted = await requestPermissions();
     console.log(`Engedélyezett: ${granted}`);
     if (!granted) {
@@ -53,33 +61,28 @@ const MobilCamera = (props: Props) => {
     //Néhány telefonon nincs rajta
     const elerheto =
       await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable();
-    console.log(`Modul elérhető: ${elerheto.available}`);
+    //console.log(`Modul elérhető: ${elerheto.available}`);
     if (!elerheto.available) {
-      console.log("Telepítés");
+      //console.log("Telepítés");
       await BarcodeScanner.installGoogleBarcodeScannerModule();
     }
     //Options
     let options = { formats: [BarcodeFormat.QrCode] };
     //QrCode = 'QR_CODE',
     const { barcodes } = await BarcodeScanner.scan(options);
-    console.log(`Barcode array: ${JSON.stringify(barcodes[0].displayValue)}`);
-    setValaki(barcodes[0].displayValue);
-    setBarcodes((oldvalue) => [...oldvalue, ...barcodes]);
-
-    setIsOpen(true);
-    refMegjelenit.current?.start();
+    //console.log(`Barcode array: ${JSON.stringify(barcodes[0].displayValue)}`);
+    if (VonalkodHiteles(barcodes[0].displayValue) === false) {
+      refMegjelenit.current?.start();
+    }
+    let qrcodeAdat = getDataFromScan(barcodes[0].displayValue);
+    //alert(JSON.stringify(qrcodeAdat, null, 2));
+    let adat = JSON.stringify(qrcodeAdat);
+    router.push(`/page/QrCodeElfogadPage/${adat}`, "forward", "pop");
   };
 
   return (
     <>
-      {/* {Example("header", valaki, isOpen, setIsOpen)} 
       <Figyelmeztetes
-        header="Hiba!"
-        message={valaki}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      />*/}
-      <Figyelmeztetes2
         header="Hiba!"
         message={RoszKodUzenet}
         ref={refMegjelenit}

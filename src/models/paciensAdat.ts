@@ -28,8 +28,14 @@ export const paciensKartyaAdat = z.object({
   szulDatum: z.string(),
 });
 
+type Cimke = {
+  cimke?: string;
+};
+
 // extract the inferred type
-export type PaciensKartyaAdat = z.infer<typeof paciensKartyaAdat>;
+export type PaciensXmlKartyaAdat = z.infer<typeof paciensKartyaAdat>;
+
+export type PaciensKartyaAdat = PaciensXmlKartyaAdat & Cimke;
 
 export type QrcodeAdat = Omit<PaciensKartyaAdat, "fogIdopont" | "kozlemeny">;
 
@@ -42,7 +48,7 @@ export const VonalkodHiteles = (adat: string): boolean => {
   else return true;
 };
 
-export const getDataFromScan = (adat: string): PaciensKartyaAdat => {
+export const getDataFromScan = (adat: string): QrcodeAdat => {
   const scannedData = adat.split("#");
   return {
     key: null,
@@ -51,7 +57,12 @@ export const getDataFromScan = (adat: string): PaciensKartyaAdat => {
     szulDatum: scannedData[2],
     orvos: scannedData[3],
     szerep: scannedData[4],
-    fogIdopont: null,
-    kozlemeny: null,
   };
+};
+
+export const getPaciensKartyaAdatFrom = (adat: QrcodeAdat) => {
+  const result: PaciensKartyaAdat = adat as PaciensKartyaAdat;
+  result.fogIdopont = null;
+  result.kozlemeny = null;
+  return result;
 };
