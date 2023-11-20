@@ -1,11 +1,5 @@
-import {
-  Ref,
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
-import { IonAlert, IonButton, useIonAlert } from "@ionic/react";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { IonAlert } from "@ionic/react";
 import "./Figyelmeztetes.css";
 import { IsOpenHandle } from "../../models/Tipusok";
 

@@ -16,24 +16,30 @@ const FelugroMenu = forwardRef<IsOpenFelugroHandle, Props>((props, ref) => {
   const history = useHistory();
   const router = useIonRouter();
 
-  const Megjelenit = () => {
-    setIsOpen(true);
-  };
+  //Effect is called everytime the values change
+  /* useEffect(() => {
+    console.log(`isOpen:${isOpen}`);
+  }, [isOpen]); */
 
   useImperativeHandle(ref, () => ({
     start(kartya: QrcodeAdat) {
       setKartya(kartya);
-      Megjelenit();
+      setIsOpen(!isOpen);
     },
   }));
 
   const menuClikHandle = async (detail: OverlayEventDetail<any>) => {
-    if (detail.data.action === "szerkesztes") {
-      //history.push("/page/QrCodeElfogadPage");
-      let adat = JSON.stringify(kartya);
-      router.push(`/page/QrCodeElfogadPage/${adat}`, "root", "push");
-      //setIsOpen(false);Feljebb lévő csomópont lekezeli
+    if (detail.data === undefined) return;
+    switch (detail.data.action) {
+      case "szerkesztes":
+        let adat = JSON.stringify(kartya);
+        router.push(`/page/QrCodeElfogadPage/${adat}`, "root", "push");
+        break;
+      default:
+        break;
     }
+    //history.push("/page/QrCodeElfogadPage");
+    //setIsOpen(false);Feljebb lévő csomópont lekezeli
   };
 
   return (
@@ -68,10 +74,11 @@ const FelugroMenu = forwardRef<IsOpenFelugroHandle, Props>((props, ref) => {
             },
           },
         ]}
-        onDidDismiss={({ detail }) => menuClikHandle(detail)}
-        onClick={() => {
+        onDidDismiss={({ detail }) => {
+          menuClikHandle(detail);
           setIsOpen(false);
         }}
+        onClick={() => setIsOpen(false)}
       ></IonActionSheet>
     </div>
   );

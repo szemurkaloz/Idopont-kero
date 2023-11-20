@@ -7,6 +7,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonAlert,
   useIonRouter,
 } from "@ionic/react";
 import { useParams } from "react-router";
@@ -47,58 +48,6 @@ const DoktorListaPage: React.FC = () => {
 
   const onSubmit = async () => {
     //Tárolóban frissíteni az adatot
-    const editCard = {
-      id: "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
-      key: "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
-      orvos: "Mónika PKPlus",
-      paciensNev: "3 Év Alatti Gyermek",
-      szerep: "orvos",
-      szulDatum: "2018-01-31",
-    };
-
-    taroldQrAdat(editCard);
-
-    const editCard1 = {
-      id: "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD",
-      key: "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD",
-      orvos: "Dr Főorvos Kiss Bogácsa Pál Bogárzó",
-      paciensNev: "3 Év Alatti Gyermek",
-      szerep: "orvos",
-      szulDatum: "2018-01-31",
-    };
-
-    taroldQrAdat(editCard1);
-
-    const editCard2 = {
-      id: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
-      key: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
-      orvos: "Dr Valaki Nagy",
-      paciensNev: "Remete Pál",
-      szerep: "orvos",
-      szulDatum: "2018-01-31",
-    };
-
-    taroldQrAdat(editCard2);
-
-    //Beolvasás
-    const dd = await olvasdQrAdat(
-      "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5"
-    );
-    console.log("Mentett kulcs => KULCSOK:", JSON.stringify(dd, null, 2));
-
-    //Beolvasás
-    const dd1 = await olvasdQrAdat(
-      "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD"
-    );
-    console.log("Mentett kulcs => KULCSOK:", JSON.stringify(dd1, null, 2));
-
-    //Mindet törli
-    //torolAllQrAdat();
-
-    //Töröld
-    /*torolQrAdat(
-      "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD"
-    );*/
   };
 
   return (
@@ -152,17 +101,59 @@ Ellenőrizd, hogy a jó QR kódot olvasod-e be.`}
 
 export default DoktorListaPage;
 /* 
-<IonHeader>
-        <IonToolbar className="ion-toolbar">
-          <IonButtons slot="secondary">
-            <IonButton>
-              <IonIcon slot="icon-only" icon={cameraOutline}></IonIcon>
-            </IonButton>
-          </IonButtons>
-          <IonTitle className="ion-title">{name} Joci</IonTitle>
-          <IonButtons slot="primary">
-            <IonButton>Delete</IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
+const onSubmit = async () => {
+    //Tárolóban frissíteni az adatot
+    const editCard = {
+      id: "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
+      key: "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5",
+      orvos: "Mónika PKPlus",
+      paciensNev: "3 Év Alatti Gyermek",
+      szerep: "orvos",
+      szulDatum: "2018-01-31",
+    };
+
+    taroldQrAdat(editCard);
+
+    const editCard1 = {
+      id: "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD",
+      key: "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD",
+      orvos: "Dr Főorvos Kiss Bogácsa Pál Bogárzó",
+      paciensNev: "3 Év Alatti Gyermek",
+      szerep: "orvos",
+      szulDatum: "2018-01-31",
+    };
+
+    taroldQrAdat(editCard1);
+
+    const editCard2 = {
+      id: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
+      key: "9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-56AEABEF-666E-41AA-89E2-685290914354",
+      orvos: "Dr Valaki Nagy",
+      paciensNev: "Remete Pál",
+      szerep: "orvos",
+      szulDatum: "2018-01-31",
+    };
+
+    taroldQrAdat(editCard2);
+
+    //Beolvasás
+    const dd = await olvasdQrAdat(
+      "9912-536E8127-AF30-4E7F-A10A-623F81E14AB6-76D06771-872F-48AF-BAFC-25819937B0A5"
+    );
+    console.log("Mentett kulcs => KULCSOK:", JSON.stringify(dd, null, 2));
+
+    //Beolvasás
+    const dd1 = await olvasdQrAdat(
+      "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD"
+    );
+    console.log("Mentett kulcs => KULCSOK:", JSON.stringify(dd1, null, 2));
+
+    //Mindet törli
+    //torolAllQrAdat();
+
+    //Töröld
+    /*torolQrAdat(
+      "9912-6E4F1680-909A-4ED4-946F-0CCB4CA37559-3C1B5B34-D61A-44CA-96BD-64719D54F1AD"
+    );
+  };
  */
