@@ -67,20 +67,7 @@ const DoktorListaPage: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen className="ion-padding">
         <IonButton onClick={() => onSubmit()}>Kezdeti adat</IonButton>
-        {/*  <IonButton
-          onClick={() => {
-            refMegjelenit.current?.start();
-          }}
-        >
-          Default
-        </IonButton>
-        <Figyelmeztetes2
-          header="Hiba!"
-          message={`Nem jó formátum!
-Ellenőrizd, hogy a jó QR kódot olvasod-e be.`}
-          ref={refMegjelenit}
-        /> */}
-        <ul id="open-action-sheet">
+        <ul>
           {listData.map((item) => (
             <li
               key={item.id}

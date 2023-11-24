@@ -1,4 +1,4 @@
-import { QrcodeAdat } from "./paciensAdat";
+import { FoglalasKeres, QrcodeAdat } from "./paciensAdat";
 
 export interface AppPage {
   url: string;
@@ -23,6 +23,10 @@ export type IsOpenHandle = {
 
 export type IsOpenFelugroHandle = {
   start: (kartya: QrcodeAdat) => void;
+};
+
+export type SelectedDayProps = {
+  selectedDay: React.MutableRefObject<FoglalasKeres>;
 };
 
 export const RoszKodUzenet = `Nem jó formátum!

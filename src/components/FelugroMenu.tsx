@@ -30,14 +30,20 @@ const FelugroMenu = forwardRef<IsOpenFelugroHandle, Props>((props, ref) => {
 
   const menuClikHandle = async (detail: OverlayEventDetail<any>) => {
     if (detail.data === undefined) return;
+    let adat: string;
     switch (detail.data.action) {
       case "szerkesztes":
-        let adat = JSON.stringify(kartya);
+        adat = JSON.stringify(kartya);
         router.push(`/page/QrCodeElfogadPage/${adat}`, "root", "push");
+        break;
+      case "Idopontkeres":
+        //adat = JSON.stringify({ id: kartya?.id, key: "", label: "" });
+        router.push(`/page/FoglalasLepesek/${kartya?.id}`, "root", "push");
         break;
       default:
         break;
     }
+    //FoglalasLepesek
     //history.push("/page/QrCodeElfogadPage");
     //setIsOpen(false);Feljebb lévő csomópont lekezeli
   };

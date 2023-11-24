@@ -39,6 +39,11 @@ export type PaciensKartyaAdat = PaciensXmlKartyaAdat & Cimke;
 
 export type QrcodeAdat = Omit<PaciensKartyaAdat, "fogIdopont" | "kozlemeny">;
 
+export type FoglalasKeres = {
+  id: string;
+  key: string;
+};
+
 //"9912-14ACC9FA-A63F-4F0B-AD2F-3808DCAA3DE4-232DF607-8D46-446D-A783-4C1F8B61D3EA#Alma Beáta#2000-01-01#Kovács József#orvos"
 export const VonalkodHiteles = (adat: string): boolean => {
   const patt =
@@ -66,3 +71,52 @@ export const getPaciensKartyaAdatFrom = (adat: QrcodeAdat) => {
   result.kozlemeny = null;
   return result;
 };
+
+export function datumIdoLabel(datum: string) {
+  //kezdet:"2021-08-06T08:00:00.000+02:00"
+  //eredmény:"2021.08.06. 8:00"
+  const currentDate = new Date(datum);
+  let tomb = currentDate
+    .toLocaleString("hu-HU", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+    })
+    .split(" ");
+  tomb[3] = " " + tomb[3];
+  return tomb.join("");
+}
+
+export function datumLabel(datum: string) {
+  //kezdet:"2021-08-06T08:00:00.000+02:00"
+  //eredmény:"2021.08.06."
+  /* 
+  //eredmény:"2021. 08. 06."
+  return currentDate.toLocaleDateString("hu-HU", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });*/
+  const currentDate = new Date(datum);
+  //eredmény:"2021.08.06."
+  return currentDate
+    .toLocaleDateString("hu-HU", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .split(" ")
+    .join("");
+}
+
+export function idoLabel(datum: string) {
+  const currentDate = new Date(datum);
+  return currentDate.toLocaleTimeString("hu-HU", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+//Date.prototype.toISOString always returns ####-##-##T##:##:##.###<timezone>,
+//                                          "2021-08-06T08:00:00.000+02:00";

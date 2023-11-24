@@ -3,13 +3,15 @@ import { expect, test } from "vitest";
 import { z } from "zod";
 import { createFixture } from "zod-fixture";
 import {
+  datumIdoLabel,
+  datumLabel,
   getDataFromScan,
   paciensKartyaAdat,
   VonalkodHiteles,
 } from "./paciensAdat";
 
 const adat = createFixture(paciensKartyaAdat);
-
+/*
 const output = Object.assign({
   fogIdopont: {
     key: "2021-11-02T08:20:00.000+01:00",
@@ -61,4 +63,26 @@ test("Beolvasott qrcode-ból object", () => {
     fogIdopont: null,
     kozlemeny: null,
   });
+});*/
+
+test("Iso dátumból dátum idő string: 2021.08.06. 8:00", () => {
+  const isoDatum = "2021-08-06T08:00:00.000+02:00";
+  const result = datumIdoLabel(isoDatum);
+
+  expect(result).toEqual("2021.08.06. 8:00");
 });
+
+test("Iso dátumból dátum string: 2021.08.06.", () => {
+  const isoDatum = "2021-08-06T08:00:00.000+02:00";
+  const result = datumLabel(isoDatum);
+
+  expect(result).toEqual("2021.08.06.");
+});
+/* 
+function datumLabel(datum: string) {
+  //kezdet:"2021-08-06T08:00:00.000+02:00"
+  //eredmény:"2021.08.06. 8:00"
+  const currentDate = new Date(datum);
+  let tomb = currentDate.toLocaleString("hu-HU").split(" ");
+  return tomb[0] + tomb[1] + tomb[2] + " " + tomb[3].toString().substring(0, 4);
+} */

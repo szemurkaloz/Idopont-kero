@@ -3,6 +3,7 @@ import {
   PaciensKartyaAdat,
   QrcodeAdat,
   getPaciensKartyaAdatFrom,
+  FoglalasKeres,
 } from "../models/paciensAdat";
 import { useStorage } from "./AlapEljarasok";
 
@@ -49,8 +50,11 @@ const fakeDoctorlist = [
 
 export type PaciensKartyaAdatContextType = {
   listData: PaciensKartyaAdat[];
+  foglalasKeres: FoglalasKeres | null;
   editQrCard: (editCard: QrcodeAdat) => void;
   getAdatLista: () => void;
+  setFoglalasKeresId: (id: string) => void;
+  getFoglalasKeresId: () => Promise<string | undefined>;
 };
 
 export const GlobalContext =
@@ -59,6 +63,9 @@ export const GlobalContext =
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [listData, setListData] = useState<PaciensKartyaAdat[]>(fakeDoctorlist);
   const { taroldQrAdat, olvasdQrAdat } = useStorage();
+  const [foglalasKeres, setFoglalasKeres] = useState<FoglalasKeres | null>(
+    null
+  );
 
   const getAdatLista = async () => {
     //Tárolóban frissíteni az adatot
@@ -89,6 +96,13 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       );*/
     }
   };
+  const setFoglalasKeresId = async (id: string) => {
+    setFoglalasKeres({ id, key: "", label: "" });
+  };
+
+  const getFoglalasKeresId = async () => {
+    return foglalasKeres?.id;
+  };
 
   return (
     <GlobalContext.Provider
@@ -96,6 +110,9 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         listData,
         editQrCard,
         getAdatLista,
+        foglalasKeres,
+        setFoglalasKeresId,
+        getFoglalasKeresId,
       }}
     >
       {children}

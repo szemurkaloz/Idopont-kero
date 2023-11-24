@@ -32,6 +32,7 @@ import AdatlapPage from "./pages/AdatlapPage";
 import QrCodeElfogad from "./pages/QrCodeElfogadPage";
 import { GlobalProvider } from "./store/ListaContext";
 import QrCodeBeolvasas from "./pages/QrCodeBeolvasas";
+import FoglalasLepesek from "./pages/FoglalasLepesek";
 
 setupIonicReact();
 
@@ -68,6 +69,11 @@ const App: React.FC = () => {
               <Route path="/page/QrCodeBeolvasas" exact={true}>
                 <QrCodeBeolvasas />
               </Route>
+              <Route
+                path="/page/FoglalasLepesek/:id"
+                exact={true}
+                component={FoglalasLepesek}
+              ></Route>
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>
