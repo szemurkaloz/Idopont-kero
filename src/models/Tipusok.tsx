@@ -1,3 +1,4 @@
+import { FoglalasLapActions } from "./FoglalasLapok";
 import { FoglalasKeres, QrcodeAdat } from "./paciensAdat";
 
 export interface AppPage {
@@ -26,7 +27,7 @@ export type IsOpenFelugroHandle = {
 };
 
 export type SelectedDayProps = {
-  selectedDay: React.MutableRefObject<FoglalasKeres>;
+  dispatch: React.Dispatch<FoglalasLapActions>;
 };
 
 export const RoszKodUzenet = `Nem jó formátum!

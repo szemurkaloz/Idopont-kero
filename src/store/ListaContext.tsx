@@ -53,8 +53,6 @@ export type PaciensKartyaAdatContextType = {
   foglalasKeres: FoglalasKeres | null;
   editQrCard: (editCard: QrcodeAdat) => void;
   getAdatLista: () => void;
-  setFoglalasKeresId: (id: string) => void;
-  getFoglalasKeresId: () => Promise<string | undefined>;
 };
 
 export const GlobalContext =
@@ -96,13 +94,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       );*/
     }
   };
-  const setFoglalasKeresId = async (id: string) => {
-    setFoglalasKeres({ id, key: "", label: "" });
-  };
-
-  const getFoglalasKeresId = async () => {
-    return foglalasKeres?.id;
-  };
 
   return (
     <GlobalContext.Provider
@@ -111,8 +102,6 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         editQrCard,
         getAdatLista,
         foglalasKeres,
-        setFoglalasKeresId,
-        getFoglalasKeresId,
       }}
     >
       {children}

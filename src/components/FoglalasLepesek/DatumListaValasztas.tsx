@@ -1,14 +1,7 @@
-import {
-  IonButton,
-  IonChip,
-  IonCol,
-  IonGrid,
-  IonLabel,
-  IonRow,
-} from "@ionic/react";
+import { IonButton, IonChip, IonLabel } from "@ionic/react";
 import { useState } from "react";
 import { useSwiper } from "swiper/react";
-import { FoglalasKeres, datumLabel } from "../../models/paciensAdat";
+import { datumLabel } from "../../models/paciensAdat";
 import { SelectedDayProps } from "../../models/Tipusok";
 
 const NapokTomb = [
@@ -16,9 +9,9 @@ const NapokTomb = [
   { key: "2021-08-07T08:15:00.000+02:00", label: "2021-08-07" },
   { key: "2021-08-08T08:30:00.000+02:00", label: "2021-08-08" },
   { key: "2021-08-10T08:45:00.000+02:00", label: "2021-08-10" },
-  { key: "2021-08-11T08:45:00.000+02:00", label: "2021-08-11" },
-  { key: "2021-08-12T08:45:00.000+02:00", label: "2021-08-12" },
-  { key: "2021-08-13T08:45:00.000+02:00", label: "2021-08-13" },
+  { key: "2021-09-11T08:00:00.000+02:00", label: "2021-08-11" },
+  { key: "2021-08-12T08:15:00.000+02:00", label: "2021-08-12" },
+  { key: "2021-08-13T08:30:00.000+02:00", label: "2021-08-13" },
 ];
 
 const DatumListaValasztas = (props: SelectedDayProps) => {
@@ -26,7 +19,8 @@ const DatumListaValasztas = (props: SelectedDayProps) => {
   const swiper = useSwiper();
 
   function KartyaClickHandle(item: { key: string; label: string }) {
-    props.selectedDay.current.key = item.key;
+    props.dispatch({ type: "tovabb", datum: item.key });
+    swiper.slideNext();
   }
 
   return (
@@ -41,7 +35,7 @@ const DatumListaValasztas = (props: SelectedDayProps) => {
               KartyaClickHandle(item);
             }}
           >
-            <IonChip onClick={() => swiper.slideNext()}>
+            <IonChip>
               <IonLabel className="w-28">{datumLabel(item.key)}</IonLabel>
             </IonChip>
           </li>

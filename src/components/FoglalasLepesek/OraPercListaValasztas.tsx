@@ -25,7 +25,7 @@ const OraPercListaValasztas = (props: SelectedDayProps) => {
   const swiper = useSwiper();
 
   function KartyaClickHandle(item: { key: string; label: string }) {
-    props.selectedDay.current.key = item.key;
+    props.dispatch({ type: "tovabb", datum: item.key });
     swiper.slideNext();
   }
 
@@ -49,7 +49,7 @@ const OraPercListaValasztas = (props: SelectedDayProps) => {
         </div>
       )}
       {idoTomb && (
-        <slot>
+        <div>
           <ul>
             {idoTomb.map((item) => (
               <li
@@ -59,7 +59,7 @@ const OraPercListaValasztas = (props: SelectedDayProps) => {
                   KartyaClickHandle(item);
                 }}
               >
-                <IonChip onClick={() => swiper.slideNext()}>
+                <IonChip>
                   <IonLabel className="w-28">{idoLabel(item.key)}</IonLabel>
                 </IonChip>
               </li>
@@ -68,7 +68,7 @@ const OraPercListaValasztas = (props: SelectedDayProps) => {
           <IonButton className="mt-10" onClick={() => swiper.slidePrev()}>
             Előző
           </IonButton>
-        </slot>
+        </div>
       )}
     </div>
   );

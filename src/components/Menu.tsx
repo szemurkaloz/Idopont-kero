@@ -61,7 +61,7 @@ const appPages: AppPage[] = [
   },
   {
     title: "Névjegy",
-    url: "adatlappage",
+    url: "/page/adatlappage",
     iosIcon: warningOutline,
     mdIcon: warningSharp,
   },
