@@ -56,10 +56,13 @@ const FoglalasLepesek: React.FC<FoglalasLepesekProps> = (props) => {
           zoom={true}
         >
           <SwiperSlide>
-            <DatumListaValasztas dispatch={dispatch} />
+            <DatumListaValasztas
+              dispatch={dispatch}
+              id={props.match.params.id}
+            />
           </SwiperSlide>
           <SwiperSlide>
-            <OraPercListaValasztas dispatch={dispatch} />
+            <OraPercListaValasztas dispatch={dispatch} foglalasKeres={state} />
           </SwiperSlide>
           <SwiperSlide>
             <IdopontKeresScreen foglalasKeres={state} />

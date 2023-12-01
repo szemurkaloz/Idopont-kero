@@ -39,6 +39,8 @@ export type PaciensKartyaAdat = PaciensXmlKartyaAdat & Cimke;
 
 export type QrcodeAdat = Omit<PaciensKartyaAdat, "fogIdopont" | "kozlemeny">;
 
+export type SzerverAdat = Pick<PaciensKartyaAdat, "fogIdopont" | "kozlemeny">;
+
 export type FoglalasKeres = {
   id: string;
   key: string;
@@ -72,11 +74,31 @@ export const getPaciensKartyaAdatFrom = (adat: QrcodeAdat) => {
   return result;
 };
 
-export function datumIdoLabel(datum: string) {
+/* export function datumIdoLabel(datum: string) {
   //kezdet:"2021-08-06T08:00:00.000+02:00"
   //eredmény:"2021.08.06. 8:00"
   const currentDate = new Date(datum);
   let tomb = currentDate
+    .toLocaleString("hu-HU", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+    })
+    .split(" ");
+  tomb[3] = " " + tomb[3];
+  return tomb.join("");
+} */
+
+export function datumIdoLabel(datum: string | Date) {
+  //kezdet:"2021-08-06T08:00:00.000+02:00"
+  //eredmény:"2021.08.06. 8:00"
+  if (datum === null) return "";
+  if (typeof datum === "string") {
+    datum = new Date(datum);
+  }
+  let tomb = datum
     .toLocaleString("hu-HU", {
       year: "numeric",
       month: "2-digit",
@@ -120,3 +142,13 @@ export function idoLabel(datum: string) {
 }
 //Date.prototype.toISOString always returns ####-##-##T##:##:##.###<timezone>,
 //                                          "2021-08-06T08:00:00.000+02:00";
+
+export const fogIdopontAdat = z.object({
+  fogIdopont: z.nullable(
+    z.object({
+      key: z.string().datetime({ offset: true }),
+      label: z.string().default(""),
+      uzenet: z.string().default(""),
+    })
+  ),
+});

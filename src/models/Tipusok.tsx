@@ -1,5 +1,5 @@
-import { FoglalasLapActions } from "./FoglalasLapok";
-import { FoglalasKeres, QrcodeAdat } from "./paciensAdat";
+import { FoglalasAllapot, FoglalasLapActions } from "./FoglalasLapok";
+import { QrcodeAdat } from "./paciensAdat";
 
 export interface AppPage {
   url: string;
@@ -27,6 +27,12 @@ export type IsOpenFelugroHandle = {
 };
 
 export type SelectedDayProps = {
+  id: string;
+  dispatch: React.Dispatch<FoglalasLapActions>;
+};
+
+export type SelectedOraProps = {
+  foglalasKeres: FoglalasAllapot;
   dispatch: React.Dispatch<FoglalasLapActions>;
 };
 

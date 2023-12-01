@@ -1,6 +1,6 @@
 import { Database, Drivers, Storage } from "@ionic/storage";
 import { useEffect, useState } from "react";
-import { QrcodeAdat } from "../models/paciensAdat";
+import { PaciensKartyaAdat, QrcodeAdat } from "../models/paciensAdat";
 
 export const useStorage = () => {
   const [db, setDb] = useState<Database | null>(null);
@@ -59,6 +59,32 @@ export const useStorage = () => {
     }
   };
 
+  const olvasdAllKeys = async (): Promise<string[]> => {
+    try {
+      return await db.keys();
+    } catch (e) {
+      throw new Error(`Kulcsok beolvasása közben hiba lépett fel: ${e}`);
+    }
+  };
+
+  const olvasdAllQrCodot = async (): Promise<PaciensKartyaAdat[]> => {
+    try {
+      return db.keys().forEach((key: string) => {
+        const jsonValue = db.get(key);
+        return jsonValue === null ? null : setQrcodeAdat(jsonValue);
+      });
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  };
+
+  const setQrcodeAdat = (adat: string) => {
+    let value = JSON.parse(adat) as PaciensKartyaAdat;
+    value.fogIdopont = null;
+    value.kozlemeny = null;
+    return value;
+  };
+
   /* több ebben a változatban nincs
   const keresKeyInKeys = async (id: string): Promise<boolean> => {
     try {
@@ -101,5 +127,6 @@ export const useStorage = () => {
     olvasdQrAdat,
     torolQrAdat,
     torolAllQrAdat,
+    olvasdAllQrCodot,
   };
 };

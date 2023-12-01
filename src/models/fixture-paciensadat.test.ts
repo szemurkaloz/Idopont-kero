@@ -11,7 +11,7 @@ import {
 } from "./paciensAdat";
 
 const adat = createFixture(paciensKartyaAdat);
-/*
+
 const output = Object.assign({
   fogIdopont: {
     key: "2021-11-02T08:20:00.000+01:00",
@@ -26,7 +26,7 @@ const output = Object.assign({
   szerep: "orvos",
   szulDatum: "2018-01-31",
 });
-
+/*
 test("Kijövő páciens kártya adat ellenőrzése", () => {
   expect(adat).toMatchObject(`
     {
@@ -67,6 +67,13 @@ test("Beolvasott qrcode-ból object", () => {
 
 test("Iso dátumból dátum idő string: 2021.08.06. 8:00", () => {
   const isoDatum = "2021-08-06T08:00:00.000+02:00";
+  const result = datumIdoLabel(isoDatum);
+
+  expect(result).toEqual("2021.08.06. 8:00");
+});
+
+test("Iso dátumból dátum idő string: 2021.08.06. 8:00", () => {
+  const isoDatum = new Date("2021-08-06T08:00:00.000+02:00");
   const result = datumIdoLabel(isoDatum);
 
   expect(result).toEqual("2021.08.06. 8:00");
